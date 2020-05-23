@@ -67,6 +67,15 @@ function undraw(){
 // make the tetrimino move down every second
 timerId = setInterval(moveDown, 500) // This number is set to 500 for debugging to make the tetriminoes fall faster
 
+// assign functions to keycodes
+
+function control(e){
+  if(e.keyCode === 37)
+  moveLeft()
+}
+
+document.addEventListener()
+
 //moveDown function
 function moveDown(){
   undraw()
@@ -85,6 +94,19 @@ function freeze(){
     currentPosition = 4
     draw()
   }
+}
+
+
+// move the tetrimino left, unless it is at the edge or there is a blockage
+function moveLeft(){
+  undraw()
+  const isAtLeftEdge = current.some(index => (currentPosition + index ) % width === 0)
+  if(!isAtLeftEdge) currentPosition -=1
+
+  if(current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+    currentPosition +=1
+  }
+draw()
 }
 
 })
