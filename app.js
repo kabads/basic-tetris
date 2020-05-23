@@ -43,8 +43,48 @@ document.addEventListener('DOMContentLoaded', () => {
   const theTetriminoes = [lTetrimino, zTetromino, tTetromino, oTetromino, iTetromino]
 
   let currentPosition = 4
-  let current = theTetriminoes[0]
-  console.log(theTetriminoes)
+  let currentRotation = 0
 
+  // randomly select a Tetrimino and its first rotation
+  let random = Math.floor(Math.random()*theTetriminoes.length)
+
+  let current = theTetriminoes[random][currentRotation]
+
+  // draw the first tetrimino
+  function draw(){
+    current.forEach(index => {
+      squares[currentPosition + index].classList.add('tetrimino')
+    })
+  }
+
+// undraw the Tetrimino
+function undraw(){
+  current.forEach(index => {
+    squares[currentPosition + index].classList.remove('tetrimino')
+  })
+}
+
+// make the tetrimino move down every second
+timerId = setInterval(moveDown, 500) // This number is set to 500 for debugging to make the tetriminoes fall faster
+
+//moveDown function
+function moveDown(){
+  undraw()
+  currentPosition += width
+  draw()
+  freeze()
+}
+
+// freeze function
+function freeze(){
+  if (current.some(index => squares[currentPosition + index + width].classList.contains('taken'))){
+    current.forEach(index=> squares[currentPosition + index].classList.add('taken'))
+    //start a new tetrimino
+    random = Math.floor(Math.random() * theTetriminoes.length)
+    current = theTetriminoes[random][currentRotation]
+    currentPosition = 4
+    draw()
+  }
+}
 
 })
